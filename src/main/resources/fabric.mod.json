@@ -1,33 +1,33 @@
 {
 	"schemaVersion": 1,
-	"id": "betteleash",
+	"id": "betterleash",
 	"version": "${version}",
-	"name": "BetteLeash",
+	"name": "BetterLeash",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Me!"
+		"Misemise"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/betteleash/icon.png",
+	"icon": "assets/betterleash/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.misemise.BetteLeash"
+			"net.misemise.BetterLeash"
 		],
 		"fabric-datagen": [
-			"net.misemise.BetteLeashDataGenerator"
+			"net.misemise.BetterLeashDataGenerator"
 		]
 	},
 	"mixins": [
-		"betteleash.mixins.json"
+		"betterleash.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.18.3",
-		"minecraft": "~1.21.11",
+		"minecraft": "~1.21",
 		"java": ">=21",
 		"fabric-api": "*"
 	}

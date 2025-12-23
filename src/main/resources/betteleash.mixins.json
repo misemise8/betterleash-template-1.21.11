@@ -3,7 +3,10 @@
 	"package": "net.misemise.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"LeashMixin"
+	],
+	"server": [
+		"LeashMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
