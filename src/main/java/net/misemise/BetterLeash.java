@@ -1,23 +1,16 @@
 package net.misemise;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BetterLeash implements ModInitializer {
 	public static final String MOD_ID = "betterleash";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
-	// ネットワーク通信用のID
-	public static final Identifier CONFIG_SYNC_PACKET = Identifier.of(MOD_ID, "config_sync");
-	public static final Identifier CONFIG_REQUEST_PACKET = Identifier.of(MOD_ID, "config_request");
-	public static final Identifier CONFIG_UPDATE_PACKET = Identifier.of(MOD_ID, "config_update");
 
 	@Override
 	public void onInitialize() {
@@ -26,34 +19,33 @@ public class BetterLeash implements ModInitializer {
 		// 設定ファイルの読み込み
 		LeashConfig.load();
 
+		// ペイロードの登録
+		PayloadTypeRegistry.playS2C().register(ConfigSyncPayload.ID, ConfigSyncPayload.CODEC);
+		PayloadTypeRegistry.playC2S().register(ConfigUpdatePayload.ID, ConfigUpdatePayload.CODEC);
+
 		// プレイヤー接続時に設定を同期
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			syncConfigToClient(handler.player);
 		});
 
-		// クライアントからの設定リクエストを処理
-		ServerPlayNetworking.registerGlobalReceiver(CONFIG_REQUEST_PACKET, (server, player, handler, buf, responseSender) -> {
-			syncConfigToClient(player);
-		});
-
 		// クライアントからの設定更新を処理
-		ServerPlayNetworking.registerGlobalReceiver(CONFIG_UPDATE_PACKET, (server, player, handler, buf, responseSender) -> {
+		ServerPlayNetworking.registerGlobalReceiver(ConfigUpdatePayload.ID, (payload, context) -> {
+			ServerPlayerEntity player = context.player();
+
 			// プレイヤーがOPかチェック
 			if (player.hasPermissionLevel(2)) {
-				double maxDistance = buf.readDouble();
-				double pullStrength = buf.readDouble();
-
-				server.execute(() -> {
-					LeashConfig.maxLeashDistance = maxDistance;
-					LeashConfig.pullStrength = pullStrength;
+				context.server().execute(() -> {
+					LeashConfig.maxLeashDistance = payload.maxDistance();
+					LeashConfig.pullStrength = payload.pullStrength();
 					LeashConfig.save();
 
 					// 全プレイヤーに設定を同期
-					for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) {
+					for (ServerPlayerEntity p : context.server().getPlayerManager().getPlayerList()) {
 						syncConfigToClient(p);
 					}
 
-					LOGGER.info("設定が更新されました: 最大距離={}, 引き寄せ強度={}", maxDistance, pullStrength);
+					LOGGER.info("設定が更新されました: 最大距離={}, 引き寄せ強度={}",
+							payload.maxDistance(), payload.pullStrength());
 				});
 			}
 		});
@@ -62,9 +54,9 @@ public class BetterLeash implements ModInitializer {
 	}
 
 	private void syncConfigToClient(ServerPlayerEntity player) {
-		PacketByteBuf buf = PacketByteBufs.create();
-		buf.writeDouble(LeashConfig.maxLeashDistance);
-		buf.writeDouble(LeashConfig.pullStrength);
-		ServerPlayNetworking.send(player, CONFIG_SYNC_PACKET, buf);
+		ServerPlayNetworking.send(player, new ConfigSyncPayload(
+				LeashConfig.maxLeashDistance,
+				LeashConfig.pullStrength
+		));
 	}
 }

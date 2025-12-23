@@ -3,9 +3,9 @@
 	"id": "betterleash",
 	"version": "${version}",
 	"name": "BetterLeash",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "リードが切れにくくなり、引き寄せ強度を調整できるMOD",
 	"authors": [
-		"Misemise"
+		"misemise"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -18,6 +18,9 @@
 		"main": [
 			"net.misemise.BetterLeash"
 		],
+		"client": [
+			"net.misemise.BetterLeashClient"
+		],
 		"fabric-datagen": [
 			"net.misemise.BetterLeashDataGenerator"
 		]
@@ -27,8 +30,11 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.18.3",
-		"minecraft": "~1.21",
+		"minecraft": "~1.21.11",
 		"java": ">=21",
 		"fabric-api": "*"
+	},
+	"suggests": {
+		"cloth-config": ">=15.0.0"
 	}
 }

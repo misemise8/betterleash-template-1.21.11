@@ -1,0 +1,10 @@
+{
+  "config.betterleash.title": "BetterLeash 設定",
+  "config.betterleash.category.general": "一般設定",
+  "config.betterleash.max_distance": "最大リード距離",
+  "config.betterleash.max_distance.tooltip": "リードが切れる最大距離（ブロック）\nデフォルト: 50.0\n範囲: 10.0 - 200.0",
+  "config.betterleash.pull_strength": "引き寄せ強度",
+  "config.betterleash.pull_strength.tooltip": "リードで引っ張られる強さ\nデフォルト: 0.5\n範囲: 0.1 - 2.0\n値が大きいほど強く引っ張られます",
+  "key.betterleash.config": "設定画面を開く",
+  "category.betterleash": "BetterLeash"
+}

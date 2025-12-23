@@ -7,11 +7,10 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
@@ -23,6 +22,10 @@ public class BetterLeashClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        // ペイロードの登録
+        PayloadTypeRegistry.playS2C().register(ConfigSyncPayload.ID, ConfigSyncPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(ConfigUpdatePayload.ID, ConfigUpdatePayload.CODEC);
+
         // キーバインド登録（デフォルト: K）
         configKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.betterleash.config",
@@ -32,15 +35,12 @@ public class BetterLeashClient implements ClientModInitializer {
         ));
 
         // サーバーから設定を受信
-        ClientPlayNetworking.registerGlobalReceiver(BetterLeash.CONFIG_SYNC_PACKET, (client, handler, buf, responseSender) -> {
-            double maxDistance = buf.readDouble();
-            double pullStrength = buf.readDouble();
-
-            client.execute(() -> {
-                clientMaxDistance = maxDistance;
-                clientPullStrength = pullStrength;
+        ClientPlayNetworking.registerGlobalReceiver(ConfigSyncPayload.ID, (payload, context) -> {
+            context.client().execute(() -> {
+                clientMaxDistance = payload.maxDistance();
+                clientPullStrength = payload.pullStrength();
                 BetterLeash.LOGGER.info("サーバーから設定を受信: 最大距離={}, 引き寄せ強度={}",
-                        maxDistance, pullStrength);
+                        payload.maxDistance(), payload.pullStrength());
             });
         });
 
@@ -49,17 +49,6 @@ public class BetterLeashClient implements ClientModInitializer {
             if (configKeyBinding.wasPressed()) {
                 openConfigScreen(client);
             }
-        });
-
-        // サーバー接続時に設定をリクエスト
-        ClientPlayNetworking.registerGlobalReceiver(BetterLeash.CONFIG_SYNC_PACKET, (client, handler, buf, responseSender) -> {
-            double maxDistance = buf.readDouble();
-            double pullStrength = buf.readDouble();
-
-            client.execute(() -> {
-                clientMaxDistance = maxDistance;
-                clientPullStrength = pullStrength;
-            });
         });
     }
 
@@ -93,10 +82,7 @@ public class BetterLeashClient implements ClientModInitializer {
 
         builder.setSavingRunnable(() -> {
             // 設定をサーバーに送信
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeDouble(clientMaxDistance);
-            buf.writeDouble(clientPullStrength);
-            ClientPlayNetworking.send(BetterLeash.CONFIG_UPDATE_PACKET, buf);
+            ClientPlayNetworking.send(new ConfigUpdatePayload(clientMaxDistance, clientPullStrength));
         });
 
         client.setScreen(builder.build());

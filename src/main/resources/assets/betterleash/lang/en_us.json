@@ -1,0 +1,10 @@
+{
+  "config.betterleash.title": "BetterLeash Configuration",
+  "config.betterleash.category.general": "General Settings",
+  "config.betterleash.max_distance": "Max Leash Distance",
+  "config.betterleash.max_distance.tooltip": "Maximum distance before leash breaks (blocks)\nDefault: 50.0\nRange: 10.0 - 200.0",
+  "config.betterleash.pull_strength": "Pull Strength",
+  "config.betterleash.pull_strength.tooltip": "Strength of leash pulling force\nDefault: 0.5\nRange: 0.1 - 2.0\nHigher values = stronger pull",
+  "key.betterleash.config": "Open Config Screen",
+  "category.betterleash": "BetterLeash"
+}
