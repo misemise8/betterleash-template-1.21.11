@@ -1,0 +1,48 @@
+
+> Configure project :
+Fabric Loom: 1.14.8
+"Lock for cache='C:\Users\semit\.gradle\caches\fabric-loom', project=':'" is currently held by pid '14524'.
+Run with --info or --debug to show arguments, may reveal sensitive info
+- pid: 14524
+- command: C:\Users\semit\.antigravity\extensions\redhat.java-1.50.0-win32-x64\jre\21.0.9-win32-x86_64\bin\java.exe
+- started at: 2025-12-23T05:47:40.401Z
+- user: DESKTOP-21V9L25\semit
+- parent:
+	- pid: 1372
+	- command: C:\Users\semit\.antigravity\extensions\redhat.java-1.50.0-win32-x64\jre\21.0.9-win32-x86_64\bin\java.exe
+	- started at: 2025-12-23T05:47:32.776Z
+	- user: DESKTOP-21V9L25\semit
+	- parent:
+		- pid: 18652
+		- command: C:\Windows\System32\cmd.exe
+		- started at: 2025-12-23T05:47:32.683Z
+		- user: DESKTOP-21V9L25\semit
+		- parent:
+			- pid: 20052
+			- command: C:\Users\semit\AppData\Local\Programs\Antigravity\Antigravity.exe
+			- started at: 2025-12-23T05:47:29.327Z
+			- user: DESKTOP-21V9L25\semit
+			- parent:
+				- title: 'betterleash-template-1.21.11 - Antigravity - LeashMixin.java'
+				- pid: 7232
+				- command: C:\Users\semit\AppData\Local\Programs\Antigravity\Antigravity.exe
+				- started at: 2025-12-23T05:45:20.230Z
+				- user: DESKTOP-21V9L25\semit
+				- parent:
+					- pid: 9664
+					- command: C:\Windows\explorer.exe
+					- started at: 2025-12-23T04:23:52.124Z
+					- user: DESKTOP-21V9L25\semit
+Waiting for lock to be released...
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Gradle build daemon has been stopped: stop command received
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.

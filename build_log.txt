@@ -1,0 +1,64 @@
+
+> Configure project :
+Fabric Loom: 1.14.8
+
+> Task :compileJava FAILED
+C:\Users\semit\IdeaProjects\betterleash-template-1.21.11\src\main\java\net\misemise\mixin\LeashMixin.java:22: エラー: インタフェース Leashableのメソッド getLeashHolderは指定された型に適用できません。
+                Entity leashHolder = leashable.getLeashHolder(entity);
+                                              ^
+  期待値: E
+  検出値:    Entity
+  理由: 推論変数Eには、不適合な境界があります
+    上限: Entity,Leashable
+    下限: Entity
+  Eが型変数の場合:
+    メソッド <E>getLeashHolder(E)で宣言されているE extends Entity,Leashable
+C:\Users\semit\IdeaProjects\betterleash-template-1.21.11\src\main\java\net\misemise\mixin\LeashMixin.java:41: エラー: インタフェース Leashableのメソッド getLeashHolderは指定された型に適用できません。
+                Entity leashHolder = leashable.getLeashHolder(mob);
+                                              ^
+  期待値: E
+  検出値:    Entity
+  理由: 推論変数Eには、不適合な境界があります
+    上限: Entity,Leashable
+    下限: Entity
+  Eが型変数の場合:
+    メソッド <E>getLeashHolder(E)で宣言されているE extends Entity,Leashable
+ノート: 一部のメッセージは簡略化されています。-Xdiags:verboseで再コンパイルして完全な出力を取得してください
+エラー2個
+
+[Incubating] Problems report is available at: file:///C:/Users/semit/IdeaProjects/betterleash-template-1.21.11/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  C:\Users\semit\IdeaProjects\betterleash-template-1.21.11\src\main\java\net\misemise\mixin\LeashMixin.java:22: エラー: インタフェース Leashableのメソッド getLeashHolderは指定された型に適用できません。
+                  Entity leashHolder = leashable.getLeashHolder(entity);
+                                                ^
+    期待値: E
+    検出値:    Entity
+    理由: 推論変数Eには、不適合な境界があります
+      上限: Entity,Leashable
+      下限: Entity
+    Eが型変数の場合:
+      メソッド <E>getLeashHolder(E)で宣言されているE extends Entity,Leashable
+  C:\Users\semit\IdeaProjects\betterleash-template-1.21.11\src\main\java\net\misemise\mixin\LeashMixin.java:41: エラー: インタフェース Leashableのメソッド getLeashHolderは指定された型に適用できません。
+                  Entity leashHolder = leashable.getLeashHolder(mob);
+                                                ^
+    期待値: E
+    検出値:    Entity
+    理由: 推論変数Eには、不適合な境界があります
+      上限: Entity,Leashable
+      下限: Entity
+    Eが型変数の場合:
+      メソッド <E>getLeashHolder(E)で宣言されているE extends Entity,Leashable
+  ノート: 一部のメッセージは簡略化されています。-Xdiags:verboseで再コンパイルして完全な出力を取得してください
+  エラー2個
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to generate a Build Scan (powered by Develocity).
+
+BUILD FAILED in 2s
+1 actionable task: 1 executed

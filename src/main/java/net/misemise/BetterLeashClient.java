@@ -5,20 +5,15 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
-import org.lwjgl.glfw.GLFW;
+import net.misemise.keybind.KeyBindings;
 
 public class BetterLeashClient implements ClientModInitializer {
     private static double clientMaxDistance = 50.0;
     private static double clientPullStrength = 0.5;
-
-    private static KeyBinding configKeyBinding;
 
     @Override
     public void onInitializeClient() {
@@ -26,13 +21,8 @@ public class BetterLeashClient implements ClientModInitializer {
         PayloadTypeRegistry.playS2C().register(ConfigSyncPayload.ID, ConfigSyncPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(ConfigUpdatePayload.ID, ConfigUpdatePayload.CODEC);
 
-        // キーバインド登録（デフォルト: K）
-        configKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.betterleash.config",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_K,
-                "category.betterleash"
-        ));
+        // キーバインド登録
+        KeyBindings.register();
 
         // サーバーから設定を受信
         ClientPlayNetworking.registerGlobalReceiver(ConfigSyncPayload.ID, (payload, context) -> {
@@ -46,7 +36,7 @@ public class BetterLeashClient implements ClientModInitializer {
 
         // キー押下で設定画面を開く
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (configKeyBinding.wasPressed()) {
+            if (KeyBindings.wasOpenConfigPressed()) {
                 openConfigScreen(client);
             }
         });

@@ -1,0 +1,23 @@
+
+> Configure project :
+Fabric Loom: 1.7.4
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'C:\Users\semit\IdeaProjects\betterleash-template-1.21.11\build.gradle' line: 2
+
+* What went wrong:
+An exception occurred applying plugin request [id: 'fabric-loom', version: '1.7-SNAPSHOT']
+> Failed to apply plugin 'fabric-loom'.
+   > Could not create an instance of type net.fabricmc.loom.extension.LoomGradleExtensionImpl.
+      > Could not create an instance of type net.fabricmc.loom.extension.LoomProblemReporter.
+         > 'org.gradle.api.problems.ProblemReporter org.gradle.api.problems.Problems.forNamespace(java.lang.String)'
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 857ms
